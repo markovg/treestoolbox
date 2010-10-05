@@ -231,7 +231,7 @@ switch action,      % respond to actions arranged by ui panels:
         skl.dCN = cgui.skl.dCN; skl.tCN = cgui.skl.tCN;
         skl.S = cgui.skl.S;
         % save all about trees:
-        cgui_tree ('cat_update'); cat.trees = cgui.cat.trees;
+        cgui_tree ('cat_update'); supercat.trees = cgui.cat.trees;
         [name path] = uiputfile ('.tw1', 'save workspace', 'workspace.tw1');
         if name ~= 0, % if a filename has been chosen
             % save the variables in a matlab workspace file, extension:
@@ -240,7 +240,7 @@ switch action,      % respond to actions arranged by ui panels:
             % echo on text frame of vis_ panel:
             set (cgui.vis.ui.txt1, 'string', {'saved workspace', name});
         end
-        clear cat;
+        clear supercat;
     case 'ui_clear_all'         % clear the entire TREES workspace
         cgui_tree ('cat_clear_all'); % clear all trees
         % set back all edit fields in stk_:
@@ -269,7 +269,7 @@ switch action,      % respond to actions arranged by ui panels:
             data = load ([path name], '-mat');
             cgui_tree ('ui_clear_all'); % first clear the full workspace
             % read out data (see 'ui_save' action):
-            stk = data.stk; thr = data.thr; skl = data.skl; cat = data.cat;
+            stk = data.stk; thr = data.thr; skl = data.skl; supercat = data.cat;
             % update stk_ panel:
             cgui.stk.M     = stk.M;     cgui.stk.sM    = stk.sM;
             cgui.stk.coord = stk.coord; cgui.stk.voxel = stk.voxel;
@@ -301,7 +301,7 @@ switch action,      % respond to actions arranged by ui panels:
             % if there are skeletonized points activate mtr_ ui
             cgui_tree ('mtr_showpanels'); cgui_tree ('skl_inform');
             % update cat_ panel with new trees:
-            incorporateloaded_tree (cat.trees, 'tree'); clear cat;
+            incorporateloaded_tree (supercat.trees, 'tree'); clear supercat;
             cgui_tree ('stk_update'); % update stk_ maximum intensity projections
             cgui_tree ('stk_image');  % redraw stk_ graphical output: image stacks
             cgui_tree ('thr_image');  % redraw thr_ graphical output: thresholded stacks
