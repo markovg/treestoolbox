@@ -277,7 +277,7 @@ if iscell (intree),
         end
         if isstruct (intree {te}),
             if strfind (options, '-b'), % blob option: skin around bodies, faster but sloppier
-                fwrite (povray, ['blob { threshold .15  // cell obj #', num2str (te), ...
+                fwrite (povray, ['blob { threshold .15  // cell obj #', num2str(te), ...
                     char(13), char(10)], 'char');
             end
             D   = intree {te}.D;
