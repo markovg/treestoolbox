@@ -236,7 +236,7 @@ switch action,      % respond to actions arranged by ui panels:
         if name ~= 0, % if a filename has been chosen
             % save the variables in a matlab workspace file, extension:
             % ".tw1"
-            save ([path name], 'stk', 'thr', 'skl', 'cat');
+            save ([path name], 'stk', 'thr', 'skl', 'supercat');
             % echo on text frame of vis_ panel:
             set (cgui.vis.ui.txt1, 'string', {'saved workspace', name});
         end
@@ -269,7 +269,7 @@ switch action,      % respond to actions arranged by ui panels:
             data = load ([path name], '-mat');
             cgui_tree ('ui_clear_all'); % first clear the full workspace
             % read out data (see 'ui_save' action):
-            stk = data.stk; thr = data.thr; skl = data.skl; supercat = data.cat;
+            stk = data.stk; thr = data.thr; skl = data.skl; supercat = data.supercat;
             % update stk_ panel:
             cgui.stk.M     = stk.M;     cgui.stk.sM    = stk.sM;
             cgui.stk.coord = stk.coord; cgui.stk.voxel = stk.voxel;
@@ -475,13 +475,13 @@ switch action,      % respond to actions arranged by ui panels:
             cgui_tree ('ui_editoron');
         end
     case 'ui_editorframe'       % enlarge panel of active editor
-        panel       = cgui.ui.panels {cgui.modes.panel + 5};
+        panel       = cgui.ui.panels {cgui.modes.panel+5};
         pos         = get (eval (['cgui.' panel '.ui.c']), 'Position');
         pos (1 : 2) = pos (1 : 2) - 0.1 * cgui.ui.xrel;
         pos (3 : 4) = pos (3 : 4) + 0.2 * cgui.ui.xrel;
         set (eval (['cgui.' panel '.ui.c']), 'position', pos);
     case 'ui_editorunframe'     % set back panel of inactived editor
-        panel       = cgui.ui.panels {cgui.modes.panel + 5};
+        panel       = cgui.ui.panels {cgui.modes.panel+5};
         pos         = get (eval (['cgui.' panel '.ui.c']),'Position');
         pos (1 : 2) = pos (1 : 2) + 0.1 * cgui.ui.xrel;
         pos (3 : 4) = pos (3 : 4) - 0.2 * cgui.ui.xrel;
@@ -955,10 +955,10 @@ switch action,      % respond to actions arranged by ui panels:
             value = get (cgui.plt.ui.pop, 'value');
             vec   = cgui.plt.HPs {value};
             cgui.plt.HPs  (value)   = [];   % take out selected handle
-            cgui.plt.HPs  {end + 1} = vec;  % and put it on top of the stack
+            cgui.plt.HPs  {end+1}   = vec;  % and put it on top of the stack
             vec   = cgui.plt.sHPs {value};  % same for strings describing the handles
             cgui.plt.sHPs (value)   = [];
-            cgui.plt.sHPs {end + 1} = vec;
+            cgui.plt.sHPs {end+1}   = vec;
             set (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set (cgui.vis.ui.txt1, 'string', {'selected a graphics handle:', vec});
@@ -968,10 +968,10 @@ switch action,      % respond to actions arranged by ui panels:
             figure (cgui.ui.F); % recover figure control
             cgui_tree ('slt_vcomp'); % read out vector to map on color
             % see "plot_tree":
-            cgui.plt.HPs  {end + 1} = plot_tree (cgui.mtr.tree, cgui.slt.vec, [], [], ...
+            cgui.plt.HPs  {end+1} = plot_tree (cgui.mtr.tree, cgui.slt.vec, [], [], ...
                 cgui.vis.res, '-p');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['plot ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['plot ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'full plot of tree', cgui.plt.sHPs{end}});
@@ -983,10 +983,10 @@ switch action,      % respond to actions arranged by ui panels:
             % read out vector to map on color and read out index:
             cgui_tree ('slt_vcomp'); cgui_tree ('slt_icomp');
             % see "plot_tree":
-            cgui.plt.HPs  {end + 1} = plot_tree (cgui.mtr.tree, cgui.slt.vec, [], ...
+            cgui.plt.HPs  {end+1} = plot_tree (cgui.mtr.tree, cgui.slt.vec, [], ...
                 cgui.slt.ind, 2, '-b');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['bplot ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['bplot ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'blatt plot of tree', cgui.plt.sHPs{end}});
@@ -998,10 +998,10 @@ switch action,      % respond to actions arranged by ui panels:
             % read out index:
             cgui_tree ('slt_icomp');
             % see "plot_tree":
-            cgui.plt.HPs {end + 1}  = plot_tree (cgui.mtr.tree, [], [], ...
+            cgui.plt.HPs {end+1}  = plot_tree (cgui.mtr.tree, [], [], ...
                 cgui.slt.ind, 2, '-3q');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['qplot ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['qplot ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'quiver plot of tree', cgui.plt.sHPs{end}});
@@ -1013,10 +1013,10 @@ switch action,      % respond to actions arranged by ui panels:
             % read out vector to map on text and color and read out index:
             cgui_tree ('slt_vcomp'); cgui_tree ('slt_icomp');
             % see "vtext_tree":
-            cgui.plt.HPs {end + 1}  = vtext_tree (cgui.mtr.tree, cgui.slt.vec, ...
+            cgui.plt.HPs {end+1}  = vtext_tree (cgui.mtr.tree, cgui.slt.vec, ...
                 cgui.slt.vec, [], [], cgui.slt.ind);
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['vtext ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['vtext ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'text on tree', cgui.plt.sHPs{end}});
@@ -1028,10 +1028,10 @@ switch action,      % respond to actions arranged by ui panels:
             % read out vector to map on text and color and read out index:
             cgui_tree ('slt_vcomp'); cgui_tree ('slt_icomp');
             % see "vtext_tree":
-            cgui.plt.HPs {end + 1}  = vtext_tree (cgui.mtr.tree, cgui.slt.vec (cgui.slt.ind), ...
+            cgui.plt.HPs {end+1}  = vtext_tree (cgui.mtr.tree, cgui.slt.vec (cgui.slt.ind), ...
                 cgui.slt.vec (cgui.slt.ind), [], [], cgui.slt.ind, '-2d');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['vtext ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['vtext ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'2D text on tree', cgui.plt.sHPs{end}});
@@ -1044,12 +1044,12 @@ switch action,      % respond to actions arranged by ui panels:
             cgui_tree ('slt_icomp');
             % see "pointer_tree":
             if ~isempty (cgui.slt.ind)
-                cgui.plt.HPs {end + 1} = pointer_tree (cgui.mtr.tree, cgui.slt.ind);
+                cgui.plt.HPs {end+1} = pointer_tree (cgui.mtr.tree, cgui.slt.ind);
             else
-                cgui.plt.HPs {end + 1} = pointer_tree (cgui.mtr.tree, cgui.mtr.lastnode);
+                cgui.plt.HPs {end+1} = pointer_tree (cgui.mtr.tree, cgui.mtr.lastnode);
             end
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['point ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['point ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'pointer on tree', cgui.plt.sHPs{end}});
@@ -1062,14 +1062,14 @@ switch action,      % respond to actions arranged by ui panels:
             cgui_tree ('slt_icomp');
             % see "pointer_tree":
             if ~isempty (cgui.slt.ind)
-                cgui.plt.HPs {end + 1} = pointer_tree (cgui.mtr.tree, cgui.slt.ind, ...
+                cgui.plt.HPs {end+1} = pointer_tree (cgui.mtr.tree, cgui.slt.ind, ...
                     [], [], [], '-l');
             else
-                cgui.plt.HPs {end + 1} = pointer_tree (cgui.mtr.tree, cgui.mtr.lastnode, ...
+                cgui.plt.HPs {end+1} = pointer_tree (cgui.mtr.tree, cgui.mtr.lastnode, ...
                     [], [], [], '-l');
             end
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['lpoint ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['lpoint ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'electrode on tree', cgui.plt.sHPs{end}});
@@ -1082,28 +1082,28 @@ switch action,      % respond to actions arranged by ui panels:
             cgui_tree ('slt_icomp');
             % see "pointer_tree":
             if ~isempty (cgui.slt.ind)
-                cgui.plt.HPs {end + 1} = pointer_tree (cgui.mtr.tree, cgui.slt.ind, ...
+                cgui.plt.HPs {end+1} = pointer_tree (cgui.mtr.tree, cgui.slt.ind, ...
                     [], [], [], '-v');
             else
-                cgui.plt.HPs {end + 1} = pointer_tree (cgui.mtr.tree, cgui.mtr.lastnode, ...
+                cgui.plt.HPs {end+1} = pointer_tree (cgui.mtr.tree, cgui.mtr.lastnode, ...
                     [], [], [], '-v');
             end
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['vpoint ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['vpoint ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
-            set  (cgui.vis.ui.txt1, 'string', {'patch electrode on tree',cgui.plt.sHPs{end}});
+            set  (cgui.vis.ui.txt1, 'string', {'patch electrode on tree', cgui.plt.sHPs{end}});
             axis (cgui.ui.g1, 'tight');
         end
     case 'plt_dhull'            % create a distance hull handle around tree
-        if ~isempty(cgui.mtr.tree),
+        if ~isempty (cgui.mtr.tree),
             figure (cgui.ui.F); % recover figure control
             % see "hull_tree":
-            [hull M cgui.plt.HPs{end + 1}] = hull_tree (cgui.mtr.tree, ...
+            [hull M cgui.plt.HPs{end+1}] = hull_tree (cgui.mtr.tree, ...
                 str2double (get (cgui.plt.ui.ed_hull1, 'string')), 30, 30, 30, '-w -s');
             clear hull M
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['hull ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['hull ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'distance hull', cgui.plt.sHPs{end}});
@@ -1113,11 +1113,11 @@ switch action,      % respond to actions arranged by ui panels:
         if ~isempty (cgui.mtr.tree),
             figure (cgui.ui.F); % recover figure control
             % see "hull_tree":
-            [hull M cgui.plt.HPs{end + 1}] = hull_tree (cgui.mtr.tree, ...
+            [hull M cgui.plt.HPs{end+1}] = hull_tree (cgui.mtr.tree, ...
                 str2double (get (cgui.plt.ui.ed_hull1, 'string')), 30, 30, 30, '-w -s -2d');
             clear hull M
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['2d-hull ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['2d-hull ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'2D distance hull', cgui.plt.sHPs{end}});
@@ -1134,10 +1134,10 @@ switch action,      % respond to actions arranged by ui panels:
                 str2double (get(cgui.plt.ui.ed_hull1, 'string')), 20, 20, 20, '-w');
             points = c.vertices;
             % see "vhull_tree":
-            cgui.plt.HPs {end + 1}  = vhull_tree (cgui.mtr.tree, cgui.slt.vec,...
+            cgui.plt.HPs  {end+1}  = vhull_tree (cgui.mtr.tree, cgui.slt.vec,...
                 points, cgui.slt.ind, [],'-w -s');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['vhull ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['vhull ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'voronoi hull', cgui.plt.sHPs{end}});
@@ -1154,10 +1154,10 @@ switch action,      % respond to actions arranged by ui panels:
                 str2double (get (cgui.plt.ui.ed_hull1, 'string')), 30, 30, 30, '-w -2d'));
             points = [Xt Yt];
             % see "vhull_tree":
-            cgui.plt.HPs {end + 1}  = vhull_tree (cgui.mtr.tree, cgui.slt.vec, ...
+            cgui.plt.HPs {end+1}  = vhull_tree (cgui.mtr.tree, cgui.slt.vec, ...
                 points, cgui.slt.ind, [], '-w -s -2d');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['2d-vhull ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['2d-vhull ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'2D voronoi hull', cgui.plt.sHPs{end}});
@@ -1167,10 +1167,10 @@ switch action,      % respond to actions arranged by ui panels:
         if ~isempty (cgui.mtr.tree),
             figure (cgui.ui.F); % recover figure control
             % see "lego_tree", use distance hull edit for resolution:
-            cgui.plt.HPs  {end + 1}  = lego_tree (cgui.mtr.tree, ...
+            cgui.plt.HPs  {end+1} = lego_tree (cgui.mtr.tree, ...
                 str2double (get (cgui.plt.ui.ed_hull1, 'string')), 0, '-f -e');
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['lego ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['lego ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'lego toy plot', cgui.plt.sHPs{end}});
@@ -1182,11 +1182,11 @@ switch action,      % respond to actions arranged by ui panels:
             % read out index of nodes to use for density plot:
             cgui_tree ('slt_icomp');
             % see "gdens_tree", use distance hull edit for resolution:
-            [m dx dy dz cgui.plt.HPs{end + 1}] = gdens_tree (cgui.mtr.tree, ...
+            [m dx dy dz cgui.plt.HPs{end+1}] = gdens_tree (cgui.mtr.tree, ...
                 str2double (get (cgui.plt.ui.ed_hull1, 'string')), cgui.slt.ind, '-s');
             clear m dx dy dz
             % update popup:
-            cgui.plt.sHPs {end + 1} = ['dens ' cgui.mtr.tree.name]; % create name of handle
+            cgui.plt.sHPs {end+1} = ['dens ' cgui.mtr.tree.name]; % create name of handle
             set  (cgui.plt.ui.pop,  'string', cgui.plt.sHPs, 'value', length (cgui.plt.sHPs));
             % echo on text frame of vis_ panel:
             set  (cgui.vis.ui.txt1, 'string', {'density plot', cgui.plt.sHPs{end}});
@@ -1411,7 +1411,7 @@ switch action,      % respond to actions arranged by ui panels:
             % vector values along the paths away from the the root):
             cgui.slt.cvec = Pvec_tree (cgui.mtr.tree, cgui.slt.vec);
             % update popup:
-            cgui.slt.svec {end} = ['pvec ' cgui.slt.svec{get (cgui.slt.ui.pop1, 'value')}];
+            cgui.slt.svec {end} = ['pvec ' cgui.slt.svec{get(cgui.slt.ui.pop1, 'value')}];
             set (cgui.slt.ui.pop1, 'string', cgui.slt.svec, 'value', length (cgui.slt.svec));
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
             % echo on text frame of vis_ panel:
@@ -1425,11 +1425,11 @@ switch action,      % respond to actions arranged by ui panels:
             % daughter segments in a tree of the values in the vector):
             cgui.slt.cvec = ratio_tree (cgui.mtr.tree, cgui.slt.vec);
             % update popup:
-            cgui.slt.svec {end} = ['ratio ' cgui.slt.svec{get (cgui.slt.ui.pop1, 'value')}];
+            cgui.slt.svec {end} = ['ratio ' cgui.slt.svec{get(cgui.slt.ui.pop1, 'value')}];
             set (cgui.slt.ui.pop1, 'string', cgui.slt.svec, 'value', length (cgui.slt.svec));
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
             % echo on text frame of vis_ panel:
-            set (cgui.vis.ui.txt1, 'string', {'computed parent daughter ratio',...
+            set (cgui.vis.ui.txt1, 'string', {'computed parent daughter ratio', ...
                 cgui.slt.svec{end}});
         end
     case 'slt_child'            % metafunction: sum up values over children
@@ -1440,7 +1440,7 @@ switch action,      % respond to actions arranged by ui panels:
             % vector):
             cgui.slt.cvec = child_tree (cgui.mtr.tree, cgui.slt.vec);
             % update popup:
-            cgui.slt.svec {end} = ['child ' cgui.slt.svec{get (cgui.slt.ui.pop1, 'value')}];
+            cgui.slt.svec {end} = ['child ' cgui.slt.svec{get(cgui.slt.ui.pop1, 'value')}];
             set (cgui.slt.ui.pop1, 'string', cgui.slt.svec, 'value', length (cgui.slt.svec));
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
             % echo on text frame of vis_ panel:
@@ -1453,7 +1453,7 @@ switch action,      % respond to actions arranged by ui panels:
             % apply "asym_tree" on that mapping (branch point asymmetry of
             cgui.slt.cvec = asym_tree (cgui.mtr.tree, cgui.slt.vec);
             % update popup:
-            cgui.slt.svec {end} = ['asym ' cgui.slt.svec{get (cgui.slt.ui.pop1, 'value')}];
+            cgui.slt.svec {end} = ['asym ' cgui.slt.svec{get(cgui.slt.ui.pop1, 'value')}];
             set (cgui.slt.ui.pop1, 'string', cgui.slt.svec, 'value', length (cgui.slt.svec));
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
             % echo on text frame of vis_ panel:
@@ -1500,7 +1500,7 @@ switch action,      % respond to actions arranged by ui panels:
                 cgui.mtr.lastnode = cgui.slt.cind (end);
             end
             % update popup
-            cgui.slt.sind {end} = [cgui.slt.svec{get (cgui.slt.ui.pop1, 'value')} ...
+            cgui.slt.sind {end} = [cgui.slt.svec{get(cgui.slt.ui.pop1, 'value')} ...
                 '<' get(cgui.slt.ui.ed_thred1, 'string')];
             set (cgui.slt.ui.pop2, 'string', cgui.slt.sind, 'value', length (cgui.slt.sind));
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
@@ -1523,7 +1523,7 @@ switch action,      % respond to actions arranged by ui panels:
                 cgui.mtr.lastnode = cgui.slt.cind (end);
             end
             % update popup
-            cgui.slt.sind {end} = [cgui.slt.svec{get (cgui.slt.ui.pop1, 'value')} ...
+            cgui.slt.sind {end} = [cgui.slt.svec{get(cgui.slt.ui.pop1, 'value')} ...
                 '>' get(cgui.slt.ui.ed_thred1, 'string')];
             set (cgui.slt.ui.pop2, 'string', cgui.slt.sind, 'value', length (cgui.slt.sind));
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
@@ -1540,7 +1540,7 @@ switch action,      % respond to actions arranged by ui panels:
                 indy = cgui.slt.ind;
             end
             if ~isempty (indy),
-                cgui.cat.untrees {end + 1} = cgui.mtr.tree; % keep track of old tree for undo
+                cgui.cat.untrees {end+1} = cgui.mtr.tree; % keep track of old tree for undo
                 % this is it (see "delete_tree"):
                 cgui.mtr.tree = delete_tree (cgui.mtr.tree, indy);
                 cgui_tree ('slt_relsel'); % after tree alteration selected nodes are discarded
@@ -1602,7 +1602,7 @@ switch action,      % respond to actions arranged by ui panels:
     case 'slt_assignN'          % assign NEW active region to selected nodes
         if ~isempty (cgui.mtr.tree),
             len = length (cgui.mtr.tree.rnames);
-            cgui.mtr.tree.rnames {len + 1} = 'new_region';
+            cgui.mtr.tree.rnames {len+1} = 'new_region';
             if cgui.modes.edit && (cgui.modes.panel == 4)
                 % set edit-select selected nodes to new active region:
                 cgui.mtr.tree.R (cgui.mtr.selected) = len + 1;
@@ -1614,7 +1614,7 @@ switch action,      % respond to actions arranged by ui panels:
             set (cgui.slt.ui.pop3, 'string', num2str ((1 : length (cgui.mtr.tree.rnames))'), ...
                 'value', len + 1);
             set (cgui.slt.ui.ed_name1, 'string', ...
-                cgui.mtr.tree.rnames {get (cgui.slt.ui.pop3, 'value')});
+                cgui.mtr.tree.rnames {get(cgui.slt.ui.pop3, 'value')});
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
             % echo on text frame of vis_ panel:
             set (cgui.vis.ui.txt1, 'string', ...
@@ -2045,7 +2045,7 @@ switch action,      % respond to actions arranged by ui panels:
                 cgui.cat.trees{cgui.cat.i2tree}(cgui.cat.itree) = [];
                 cgui.cat.itree = cgui.cat.itree + 1;
                 cgui.cat.trees{cgui.cat.i2tree} = ...
-                    {cgui.cat.trees{cgui.cat.i2tree}{1:cgui.cat.itree - 1}, ...
+                    {cgui.cat.trees{cgui.cat.i2tree}{1:cgui.cat.itree-1}, ...
                     tree, cgui.cat.trees{cgui.cat.i2tree}{cgui.cat.itree:end}};
             end
             if length (cgui.cat.trees {cgui.cat.i2tree}) > 1,
@@ -2248,20 +2248,20 @@ switch action,      % respond to actions arranged by ui panels:
         
     case 'stk_pop'              % update stack sorter
         if ~isempty (cgui.stk.M),
-            value = get (cgui.stk.ui.pop,'value'); % find popup selected
+            value = get (cgui.stk.ui.pop, 'value'); % find popup selected
             % put selected stack, its descriptive string, its coordinates
             % and maximum intensity projections to the end of the arrays:
             % (becomes currently activated stack).
-            vec = cgui.stk.M    {value}; cgui.stk.M    (value) = []; cgui.stk.M    {end + 1} = vec;
-            vec = cgui.stk.sM   {value}; cgui.stk.sM   (value) = []; cgui.stk.sM   {end + 1} = vec;
-            vec = cgui.stk.imM1 {value}; cgui.stk.imM1 (value) = []; cgui.stk.imM1 {end + 1} = vec;
-            vec = cgui.stk.imM2 {value}; cgui.stk.imM2 (value) = []; cgui.stk.imM2 {end + 1} = vec;
-            vec = cgui.stk.imM3 {value}; cgui.stk.imM3 (value) = []; cgui.stk.imM3 {end + 1} = vec;
-            vec = cgui.stk.mM1  {value}; cgui.stk.mM1  (value) = []; cgui.stk.mM1  {end + 1} = vec;
-            vec = cgui.stk.mM2  {value}; cgui.stk.mM2  (value) = []; cgui.stk.mM2  {end + 1} = vec;
-            vec = cgui.stk.mM3  {value}; cgui.stk.mM3  (value) = []; cgui.stk.mM3  {end + 1} = vec;
+            vec = cgui.stk.M    {value}; cgui.stk.M    (value) = []; cgui.stk.M    {end+1} = vec;
+            vec = cgui.stk.sM   {value}; cgui.stk.sM   (value) = []; cgui.stk.sM   {end+1} = vec;
+            vec = cgui.stk.imM1 {value}; cgui.stk.imM1 (value) = []; cgui.stk.imM1 {end+1} = vec;
+            vec = cgui.stk.imM2 {value}; cgui.stk.imM2 (value) = []; cgui.stk.imM2 {end+1} = vec;
+            vec = cgui.stk.imM3 {value}; cgui.stk.imM3 (value) = []; cgui.stk.imM3 {end+1} = vec;
+            vec = cgui.stk.mM1  {value}; cgui.stk.mM1  (value) = []; cgui.stk.mM1  {end+1} = vec;
+            vec = cgui.stk.mM2  {value}; cgui.stk.mM2  (value) = []; cgui.stk.mM2  {end+1} = vec;
+            vec = cgui.stk.mM3  {value}; cgui.stk.mM3  (value) = []; cgui.stk.mM3  {end+1} = vec;
             if ~isempty (cgui.thr.BW),
-                vec = cgui.thr.BW {value}; cgui.thr.BW (value) = []; cgui.thr.BW {end + 1} = vec;
+                vec = cgui.thr.BW {value}; cgui.thr.BW (value) = []; cgui.thr.BW   {end+1} = vec;
             end
             vec = cgui.stk.coord (value, :); cgui.stk.coord (value, :) = [];
             cgui.stk.coord (end + 1, :) = vec;
@@ -2376,16 +2376,16 @@ switch action,      % respond to actions arranged by ui panels:
             % WOW matlab you are so cool! Use normxcorr2 to align
             % (register) the maximum intensity projections and adjust for
             % stack coordinates and voxel sizes:
-            NC = normxcorr2 (cgui.stk.mM1 {end}, cgui.stk.mM1 {end - 1});
+            NC = normxcorr2 (cgui.stk.mM1 {end}, cgui.stk.mM1 {end-1});
             [i1 i2] = max (NC); [i1 i3] = max (i1);
             x = cgui.stk.voxel (1) * (i3      - size (cgui.stk.mM1 {end}, 2)) + ...
                 cgui.stk.coord (end - 1, 1);
             y = cgui.stk.voxel (2) * (i2 (i3) - size (cgui.stk.mM1 {end}, 1)) + ...
                 cgui.stk.coord (end - 1, 2);
-            if size (cgui.stk.mM2 {end}, 1) > size (cgui.stk.mM2 {end - 1}, 1),
-                NC = normxcorr2 (cgui.stk.mM2 {end - 1}, cgui.stk.mM2 {end});
+            if size (cgui.stk.mM2 {end}, 1) > size (cgui.stk.mM2 {end-1}, 1),
+                NC = normxcorr2 (cgui.stk.mM2 {end-1}, cgui.stk.mM2 {end});
             else
-                NC = normxcorr2 (cgui.stk.mM2 {end},     cgui.stk.mM2 {end - 1});
+                NC = normxcorr2 (cgui.stk.mM2 {end},   cgui.stk.mM2 {end-1});
             end
             [i1 i2] = max (NC); [i1 i3] = max (i1);
             z = cgui.stk.voxel (3) * (i2 (i3) - size (cgui.stk.mM2 {end}, 1)) + ...
@@ -2417,15 +2417,15 @@ switch action,      % respond to actions arranged by ui panels:
             % That's much much quicker of course:
             if get (cgui.stk.ui.r1, 'value'),
                 for ward = 0 : 2,
-                    xdata = get (cgui.stk.HP {end - ward}, 'xdata');
+                    xdata = get (cgui.stk.HP {end-ward}, 'xdata');
                     xdata = xdata - min (min (xdata));
-                    set (cgui.stk.HP {end - ward}, 'xdata', xdata + cgui.stk.coord (end, 1) - .5);
-                    ydata = get (cgui.stk.HP {end - ward}, 'ydata');
+                    set (cgui.stk.HP {end-ward}, 'xdata', xdata + cgui.stk.coord (end, 1) - .5);
+                    ydata = get (cgui.stk.HP {end-ward}, 'ydata');
                     ydata = ydata - min (min (ydata));
-                    set (cgui.stk.HP {end - ward}, 'ydata', ydata + cgui.stk.coord (end, 2) - .5);
-                    zdata = get (cgui.stk.HP {end - ward}, 'zdata');
+                    set (cgui.stk.HP {end-ward}, 'ydata', ydata + cgui.stk.coord (end, 2) - .5);
+                    zdata = get (cgui.stk.HP {end-ward}, 'zdata');
                     zdata = zdata - min (min (zdata));
-                    set (cgui.stk.HP {end - ward}, 'zdata', zdata + cgui.stk.coord (end, 3) - .5);
+                    set (cgui.stk.HP {end-ward}, 'zdata', zdata + cgui.stk.coord (end, 3) - .5);
                 end
             end
             if get (cgui.stk.ui.r2, 'value'),
@@ -2553,7 +2553,7 @@ switch action,      % respond to actions arranged by ui panels:
             for ward =  1: length (cgui.stk.HP),
                 delete (cgui.stk.HP {ward});
             end
-            cgui.stk.HP ={};
+            cgui.stk.HP = {};
         end
         % if 3 stacks on same coordinates stack is considered RGB (but many
         % restrictions there!!
@@ -2567,7 +2567,7 @@ switch action,      % respond to actions arranged by ui panels:
                 B3 = cat (3, flipud (cgui.stk.mM3 {1}), flipud (cgui.stk.mM3 {2}), flipud (cgui.stk.mM3 {3}));
                 % map all three maximum projections on rectangular
                 % surfaces:
-                cgui.stk.HP {end + 1} = surface ( ...
+                cgui.stk.HP {end+1} = surface ( ...
                     - .5 * cgui.stk.voxel (1) + (cgui.stk.coord (1, 1) + ...
                     cgui.stk.voxel (1) * ...
                     [0 size(cgui.stk.M{1}, 2)-1; 0 size(cgui.stk.M{1}, 2)-1]), ...
@@ -2578,7 +2578,7 @@ switch action,      % respond to actions arranged by ui panels:
                 set (cgui.stk.HP {end}, 'CData', double (B1), ...
                     'FaceColor', 'texturemap', 'Edgecolor', 'none', ...
                     'facealpha', cgui.stk.alpha);
-                cgui.stk.HP {end + 1} = surface ( ...
+                cgui.stk.HP {end+1} = surface ( ...
                     - .5 * cgui.stk.voxel (1) + (cgui.stk.coord (1, 1) + ...
                     cgui.stk.voxel (1) * ...
                     [0 size(cgui.stk.M{1}, 2)-1; 0  size(cgui.stk.M{1},2)-1]), ...
@@ -2589,7 +2589,7 @@ switch action,      % respond to actions arranged by ui panels:
                 set (cgui.stk.HP {end}, 'CData', double (B3), ...
                     'FaceColor', 'texturemap', 'Edgecolor', 'none', ...
                     'facealpha', cgui.stk.alpha);
-                cgui.stk.HP {end + 1} = surface ( ...
+                cgui.stk.HP {end+1} = surface ( ...
                     (cgui.stk.coord (1, 1) + repmat (0, 2, 2)), ...
                     - .5 * cgui.stk.voxel (2) + (cgui.stk.coord (1, 2)+ ...
                     cgui.stk.voxel (2) * ...
@@ -2608,7 +2608,7 @@ switch action,      % respond to actions arranged by ui panels:
                     case 2
                         cM = ceil ((cgui.vis.iM - cgui.stk.coord (1, 2)) / cgui.stk.voxel (2)) + 1;
                         if (cM >= 1) && (cM <= size (cgui.stk.M {1}, 2)),
-                            cgui.stk.HP {end + 1} = surface ((cgui.stk.coord (1, 1) + ...
+                            cgui.stk.HP {end+1} = surface ((cgui.stk.coord (1, 1) + ...
                                 cgui.stk.voxel (1) * ...
                                 [0 size(cgui.stk.M{1}, 2)-1; 0 size(cgui.stk.M{1}, 2)-1]), ...
                                 cgui.vis.iM + repmat (0, 2, 2), ...
@@ -2626,7 +2626,7 @@ switch action,      % respond to actions arranged by ui panels:
                     case 3
                         cM = ceil ((cgui.vis.iM - cgui.stk.coord (1, 1)) / cgui.stk.voxel (1)) + 1;
                         if (cM >= 1) && (cM <= size (cgui.stk.M {1}, 1)),
-                            cgui.stk.HP {end + 1} = surface (cgui.vis.iM + repmat (0, 2, 2), ...
+                            cgui.stk.HP {end+1} = surface (cgui.vis.iM + repmat (0, 2, 2), ...
                                 (cgui.stk.coord (1, 2) + ...
                                 cgui.stk.voxel(2) * ...
                                 [0 size(cgui.stk.M{1}, 1)-1; 0 size(cgui.stk.M{1}, 1)-1]), ...
@@ -2644,7 +2644,7 @@ switch action,      % respond to actions arranged by ui panels:
                     otherwise
                         cM = ceil ((cgui.vis.iM - cgui.stk.coord (1, 3)) / cgui.stk.voxel (3)) + 1;
                         if (cM >= 1) && (cM <= size (cgui.stk.M{1}, 3)),
-                            cgui.stk.HP {end + 1} = surface ((cgui.stk.coord (1, 1) + ...
+                            cgui.stk.HP {end+1} = surface ((cgui.stk.coord (1, 1) + ...
                                 cgui.stk.voxel (1) * ...
                                 [0 size(cgui.stk.M{1}, 2)-1; 0 size(cgui.stk.M{1}, 2)-1]), ...
                                 (cgui.stk.coord (1, 2) + ...
@@ -2680,7 +2680,7 @@ switch action,      % respond to actions arranged by ui panels:
                     end
                     % map all three maximum projections on rectangular
                     % surfaces:
-                    cgui.stk.HP {end + 1} = surface ( ...
+                    cgui.stk.HP {end+1} = surface ( ...
                         - .5 * cgui.stk.voxel (1) + (cgui.stk.coord (ward, 1) + ...
                         cgui.stk.voxel (1) * ...
                         [0 size(cgui.stk.M{ward}, 2)-1; 0 size(cgui.stk.M{ward}, 2)-1]),...
@@ -2691,7 +2691,7 @@ switch action,      % respond to actions arranged by ui panels:
                     set (cgui.stk.HP {end}, 'CData', flipud (double (B1)), ...
                         'FaceColor', 'texturemap', 'Edgecolor', 'none', ...
                         'facealpha', cgui.stk.alpha);
-                    cgui.stk.HP {end + 1} = surface ( ...
+                    cgui.stk.HP {end+1} = surface ( ...
                         - .5 * cgui.stk.voxel (1) + (cgui.stk.coord (ward, 1)+ ...
                         cgui.stk.voxel (1) * ...
                         [0 size(cgui.stk.M{ward}, 2)-1; 0 size(cgui.stk.M{ward}, 2)-1]),...
@@ -2702,7 +2702,7 @@ switch action,      % respond to actions arranged by ui panels:
                     set (cgui.stk.HP {end}, 'CData', flipud (double (B3)),...
                         'FaceColor', 'texturemap', 'Edgecolor', 'none', ...
                         'facealpha', cgui.stk.alpha);
-                    cgui.stk.HP {end + 1} = surface ( ...
+                    cgui.stk.HP {end+1} = surface ( ...
                         (cgui.stk.coord (ward, 1) + repmat (0, 2, 2)), ...
                         - .5 * cgui.stk.voxel (2) + (cgui.stk.coord (ward, 2) + ...
                         cgui.stk.voxel (2) * ...
@@ -2724,7 +2724,7 @@ switch action,      % respond to actions arranged by ui panels:
                             cM = ceil ((cgui.vis.iM - cgui.stk.coord (ward, 2)) / ...
                                 cgui.stk.voxel (2)) + 1;
                             if (cM >= 1) && (cM <= size (cgui.stk.M {ward}, 2)),
-                                cgui.stk.HP {end + 1} = surface ((cgui.stk.coord (ward, 1) + ...
+                                cgui.stk.HP {end+1} = surface ((cgui.stk.coord (ward, 1) + ...
                                     cgui.stk.voxel (1) * ...
                                     [0 size(cgui.stk.M{ward}, 2)-1; 0 size(cgui.stk.M{ward}, 2)-1]),...
                                     cgui.vis.iM + repmat (0, 2, 2), ...
@@ -2942,7 +2942,7 @@ switch action,      % respond to actions arranged by ui panels:
             for ward = 1 : length (cgui.thr.HP),
                 delete (cgui.thr.HP {ward});
             end
-            cgui.thr.HP ={};
+            cgui.thr.HP = {};
         end
         if get (cgui.thr.ui.r1, 'value'), % thresholded image as transparent overlay
             for ward = 1 : length (cgui.thr.BW),
@@ -2962,7 +2962,7 @@ switch action,      % respond to actions arranged by ui panels:
                     cgui.stk.voxel (2) * yc - cgui.stk.voxel (2) / 2;
                 SZ = cgui.stk.coord (ward ,3) + ...
                     zeros (size (SX)) - cgui.stk.voxel (3) / 2;
-                cgui.thr.HP {end + 1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
+                cgui.thr.HP {end+1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
                 % transparency could be added here but is too slow for now:
                 set (cgui.thr.HP {end}, 'facealpha', 1, 'edgecolor', 'none');
                 cX = [0 1 1 0] - 0.5; cZ = [0 0 1 1] - 0.5; % (X, Z) tiles
@@ -2979,7 +2979,7 @@ switch action,      % respond to actions arranged by ui panels:
                     cgui.stk.voxel (3) * zc - cgui.stk.voxel (3) / 2;
                 SY = cgui.stk.coord (ward, 2) + ...
                     zeros (size (SX)) - cgui.stk.voxel (2) / 2;
-                cgui.thr.HP {end + 1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
+                cgui.thr.HP {end+1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
                 % transparency could be added here but is too slow for now:
                 set (cgui.thr.HP {end}, 'facealpha', 1, 'edgecolor', 'none');
                 cY = [0 1 1 0] - 0.5; cZ = [0 0 1 1] - 0.5; % (Y, Z) tiles
@@ -2996,7 +2996,7 @@ switch action,      % respond to actions arranged by ui panels:
                     cgui.stk.voxel (3) * zc - cgui.stk.voxel (3) / 2;
                 SX = cgui.stk.coord (ward, 1) + ...
                     zeros (size (SY)) - cgui.stk.voxel (1) / 2;
-                cgui.thr.HP {end + 1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
+                cgui.thr.HP {end+1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
                 % transparency could be added here but is too slow for now:
                 set (cgui.thr.HP {end}, 'facealpha', 1, 'edgecolor', 'none');
             end
@@ -3030,7 +3030,7 @@ switch action,      % respond to actions arranged by ui panels:
                 SZ = cgui.stk.coord (ward, 3) + ...
                     cgui.stk.voxel (3) * repmat (cZ, len, 1) + ...
                     cgui.stk.voxel (3) * zc - cgui.stk.voxel (3) / 2;
-                cgui.thr.HP {end + 1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
+                cgui.thr.HP {end+1} = patch (SX', SY', SZ', [0 0 1]); % graphical object
                 % no transparency !
                 set (cgui.thr.HP {end}, 'edgecolor', 'none', 'facealpha', 1);
             end
@@ -3566,7 +3566,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_soma'             % add a soma by increasing the diameter at root
         if ~isempty (cgui.mtr.tree ),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "soma_tree", maps a cosine diameter around the root
             % location with a diameter and a length parameter (only
             % increases diameter, never decreases a diameter)
@@ -3583,7 +3583,7 @@ switch action,      % respond to actions arranged by ui panels:
     case 'mtr_spines'           % add a number of spines
         if ~isempty (cgui.mtr.tree ),
             cgui_tree ('slt_icomp'); % read out index for points to point at:
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree; % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree; % keep track of old tree for undo
             % see "spines_tree". Attaches randomly distributed spines to
             % selected nodes. If region with name "spines" exists then the
             % new spines are appended to it, otherwise it is created anew.
@@ -3605,7 +3605,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_spines2'          % add spines from skeletonized points
         if ~isempty (cgui.mtr.tree ) && ~isempty (cgui.skl.I),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "spines_tree". Attaches spines as mtr_spines but at
             % locations of skeletonized points (see mtr_spines):
             cgui.mtr.tree  = spines_tree (cgui.mtr.tree, ...
@@ -3620,7 +3620,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_quaddiameter'     % map quadratic diameter decay starting at the root
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "quaddiameter_tree" and (cuntz, borst and segev 2007). A
             % quadratic tapering optimizes current transfer from a terminal
             % to the dendrite root, therefore this is a good way to map a
@@ -3638,7 +3638,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_quadfit'          % fit quadratic diameter automatically
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "quadfit_tree" and "quaddiameter_tree" and "qfit" further below
             % in this file. Fits scaling and offset parameter of quadratic
             % diameter tapering:
@@ -3656,7 +3656,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_constD'           % set constant diameter throughout the tree.
         if ~isempty (cgui.mtr.tree ),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             diam            = str2double (get (cgui.mtr.ui.ed_qdiam2, 'string'));
             cgui.mtr.tree.D = cgui.mtr.tree.D * 0 + diam;
             % echo on text frame of vis_ panel:
@@ -3666,7 +3666,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_friedrichD'       % set "friedrich" diameter according to image stack.
         if ~isempty (cgui.mtr.tree) && ~isempty (cgui.stk.M),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "fitD_stack", interpolates brightness levels a few points
             % along the cylinders and finds edges using the 2nd order
             % derivative:
@@ -3679,7 +3679,7 @@ switch action,      % respond to actions arranged by ui panels:
     case 'mtr_resample'         % resample tree, approx. all segments become same length
         if ~isempty (cgui.mtr.tree),
             if size (cgui.mtr.tree.X, 1) > 1,
-                cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+                cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
                 % see "resample_tree" which redistributes the nodes on the
                 % graph to keep the topology as intact as possible but in
                 % approximately the same distance pieces, given is the
@@ -3698,7 +3698,7 @@ switch action,      % respond to actions arranged by ui panels:
     case 'mtr_resamplelong'     % resample tree, length conservation
         if ~isempty(cgui.mtr.tree ),
             if size (cgui.mtr.tree.X, 1) > 1,
-                cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+                cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
                 % see "resample_tree" which redistributes the nodes on the
                 % graph to keep the topology as intact as possible but in
                 % approximately the same distance pieces, given is the
@@ -3716,7 +3716,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_repair'           % repair a tree to fit all TREES functions
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "repair_tree" eliminates 0-length elements, trifurcations
             % and sorts the branches according to level order
             cgui.mtr.tree = repair_tree (cgui.mtr.tree);
@@ -3730,7 +3730,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_redirect'         % attributes the root to another node
         if ~isempty(cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "redirect_tree", the tree structure has to be reordered,
             % the adjacency matrix is recalculated since all edges lead
             % away from the new root. Making a branching point the new root
@@ -3747,7 +3747,7 @@ switch action,      % respond to actions arranged by ui panels:
     case 'mtr_morph'            % morphometric transform
         cgui_tree ('slt_vcomp'); % calculate value vector from slt_ panel
         if ~isempty (cgui.slt.vec) && ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % and apply the value vector on the tree as new length values
             % for the individual edges of the tree.
             % see "morph_tree". Some typical morphometric transform concern
@@ -3764,7 +3764,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_flat'             % flatten tree, this is also a kind of morphometric transform
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % segment length values are preserved and two-dimensional angles
             % but the tree is mapped to 2D, see "flatten_tree".
             cgui.mtr.tree = flatten_tree (cgui.mtr.tree);
@@ -3776,7 +3776,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_zcorr'            % z-correction (for neurolucida imports usually)
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % because of the digitization method in neurolucida, large
             % abrupt jumps in z can occur and are ironed out by this
             % function. Careful though that the function reduces the jump
@@ -3793,7 +3793,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree(4); % activate mtr_ panel for edit
     case 'mtr_discon'           % disconnect sub-tree, reappears as new tree
         if ~isempty (cgui.mtr.tree) && ~isempty (cgui.mtr.lastnode)
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % find subtree to last clicked node:
             [isub subtree] = sub_tree (cgui.mtr.tree, cgui.mtr.lastnode);
             % delete that subtree on current tree:
@@ -3805,7 +3805,7 @@ switch action,      % respond to actions arranged by ui panels:
         end
     case 'mtr_smooth'           % smoothen tree along heavier branches
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "smooth_tree" (really??.. surprise!) and "smoothbranch".
             % Smoothens heavy branches making longer paths shorter
             % (straighter):
@@ -3820,7 +3820,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_jitter'           % apply jitter on XYZ coordinates
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "jitter_tree", applies spatially low-pass filtered noise
             % (along the branch axis) from a normal distribution.
             cgui.mtr.tree = jitter_tree (cgui.mtr.tree, ...
@@ -3834,7 +3834,7 @@ switch action,      % respond to actions arranged by ui panels:
         setactivepanel_tree (4); % activate mtr_ panel for edit
     case 'mtr_clean'            % clean tree of short terminals
         if ~isempty (cgui.mtr.tree)
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % see "clean_tree", here a lot of improvement still can be
             % made. For now nodes that appear within the diameter of larger
             % branches are deleted.
@@ -3957,21 +3957,21 @@ switch action,      % respond to actions arranged by ui panels:
         end
         if ~isempty (cgui.mtr.tree)
             if get (cgui.mtr.ui.r2, 'value'), % full cylinder view on the actual tree
-                cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                     [1 0 0], [], [], cgui.vis.res, '-p');
                 if get  (cgui.mtr.ui.r5, 'value'), % transparent trees
                     set (cgui.mtr.tHP {end}, 'facealpha', .2);
                 end
             end
             if get  (cgui.mtr.ui.r3, 'value'), % graph view of the currently activated tree (arrows)
-                cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                     [1 0 0], [], [], [], '-3q');
                 set (cgui.mtr.tHP {end}, 'linewidth', 0.5);
             end
             if get (cgui.mtr.ui.r4, 'value'), % full view with mapped slt_ vectors
                 cgui_tree ('slt_vcomp'); % obtain node values from slt_ controler
                 % and map them onto the tree directly:
-                cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                     cgui.slt.vec, [], [], cgui.vis.res, '-p');
                 if get  (cgui.mtr.ui.r5, 'value'), % transparent trees
                     set (cgui.mtr.tHP {end}, 'facealpha', .2);
@@ -3984,13 +3984,13 @@ switch action,      % respond to actions arranged by ui panels:
                     % "plot_tree", "blatt" representation)
                     switch cgui.modes.view % representation depends on the view:
                         case 2 % xz-view
-                            cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                            cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                                 [], [], [], 2, '-b2');
                         case 3 % yz-view
-                            cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                            cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                                 [], [], [], 2, '-b3');
                         otherwise % xy or 3D-view
-                            cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                            cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                                 [], [], [], 2, '-b1');
                     end
                     set (cgui.mtr.tHP {end}, 'facecolor', 'none');
@@ -4015,7 +4015,7 @@ switch action,      % respond to actions arranged by ui panels:
                             cgui.mtr.pHP {3} = plot3 (cgui.mtr.tree.X (cgui.mtr.selected), ...
                                 cgui.mtr.tree.Y (cgui.mtr.selected), ...
                                 cgui.mtr.tree.Z (cgui.mtr.selected), 'k.'); % selected nodes
-                            set (cgui.mtr.pHP {3},'markersize', 24);
+                            set (cgui.mtr.pHP {3}, 'markersize', 24);
                         end
                         if ~isempty (cgui.mtr.lastnode)
                             cgui.mtr.pHP {4} = plot3 (cgui.mtr.tree.X (cgui.mtr.lastnode), ...
@@ -4031,13 +4031,13 @@ switch action,      % respond to actions arranged by ui panels:
                 % "plot_tree", "blatt" representation)
                 switch cgui.modes.view % representation depends on the view:
                     case 2 % xz-view
-                        cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                        cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                             [], [], ipart, 2, '-b2');
                     case 3 % yz-view
-                        cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                        cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                             [], [], ipart, 2, '-b3');
                     otherwise % xy or 3D-view
-                        cgui.mtr.tHP {end + 1} = plot_tree (cgui.mtr.tree, ...
+                        cgui.mtr.tHP {end+1} = plot_tree (cgui.mtr.tree, ...
                             [], [], ipart, 2, '-b1');
                 end
                 set (cgui.mtr.tHP {end}, 'linewidth', 2, 'faceColor', 'none');
@@ -4167,7 +4167,7 @@ switch action,      % respond to actions arranged by ui panels:
         end
     case 'ged_traned1'          % update root x-location according to edit
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             Xx = str2double (get (cgui.ged.ui.ed_tran1, 'string'));
             cgui.mtr.tree = tran_tree (cgui.mtr.tree, [Xx-cgui.mtr.tree.X(1) 0 0]);
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
@@ -4178,7 +4178,7 @@ switch action,      % respond to actions arranged by ui panels:
         end
     case 'ged_traned2'          % update root y-location according to edit
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees{end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees{end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             Yy = str2double (get (cgui.ged.ui.ed_tran2, 'string'));
             cgui.mtr.tree = tran_tree (cgui.mtr.tree, [0 Yy-cgui.mtr.tree.Y(1) 0]);
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
@@ -4189,7 +4189,7 @@ switch action,      % respond to actions arranged by ui panels:
         end
     case 'ged_traned3'          % update root z-location according to edit
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             Zz = str2double (get (cgui.ged.ui.ed_tran3, 'string'));
             cgui.mtr.tree = tran_tree (cgui.mtr.tree, [0 0 Zz-cgui.mtr.tree.Z(1)]);
             cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
@@ -4386,7 +4386,7 @@ switch action,      % respond to actions arranged by ui panels:
         end
     case 'ged_spread'           % spread trees in a group
         if length (cgui.cat.trees {cgui.cat.i2tree}) > 1,
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % only active tree is kept in memory though
             cgui.ged.dd = spread_tree (cgui.cat.trees {cgui.cat.i2tree}); % see "spread_tree"
             for ward = 1 : length (cgui.ged.dd)
@@ -4402,7 +4402,7 @@ switch action,      % respond to actions arranged by ui panels:
             if length (cgui.cat.trees {cgui.cat.i2tree}) == length (cgui.ged.dd),
                 % revert back to coordinates before last spread by applying
                 % the changing vectors back.
-                cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+                cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
                 % only active tree is kept in memory though
                 for ward = 1 : length (cgui.ged.dd)
                     cgui.cat.trees{cgui.cat.i2tree}{ward} = ...
@@ -4453,7 +4453,7 @@ switch action,      % respond to actions arranged by ui panels:
                     % plot all trees in group apart from active tree
                     % (mtr_image does that)
                     for ward = ilen,
-                        cgui.ged.tHP {end + 1} = plot_tree (cgui.cat.trees{cgui.cat.i2tree}{ward}, ...
+                        cgui.ged.tHP {end+1} = plot_tree (cgui.cat.trees{cgui.cat.i2tree}{ward}, ...
                             [], [], [], 2, '-b');
                         set (cgui.ged.tHP {end}, 'facecolor', 'none');
                         set (cgui.ged.tHP {end}, 'edgecolor', [0 0 0]);
@@ -4468,7 +4468,7 @@ switch action,      % respond to actions arranged by ui panels:
                     color = [[0 0 0]; [0 1 0]; [0 0 1]; rand(len - 3, 3)];
                     counter = 1;
                     for ward = ilen,
-                        cgui.ged.tHP {end + 1} = plot_tree (cgui.cat.trees{cgui.cat.i2tree}{ward}, ...
+                        cgui.ged.tHP {end+1} = plot_tree (cgui.cat.trees{cgui.cat.i2tree}{ward}, ...
                             [], [], [], cgui.vis.res, '-p');
                         set (cgui.ged.tHP {end}, 'facecolor', color (counter, :));
                         counter = counter + 1;
@@ -4888,7 +4888,7 @@ switch action,      % respond to actions arranged by ui panels:
                                 if ~isempty (cgui.mtr.selected)
                                     if ~isempty (cgui.mtr.tree)
                                         % keep track of old tree for undo:
-                                        cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                        cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                         cgui.mtr.tree = delete_tree (cgui.mtr.tree, ...
                                             cgui.mtr.selected);
                                         cgui.mtr.selected = [];  cgui.mtr.lastnode = 1;
@@ -5069,7 +5069,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit delete a full subtree
                                 if ~isempty (cgui.mtr.tree)
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree = delete_tree (cgui.mtr.tree, ...
                                         find (sub_tree (cgui.mtr.tree, cgui.mtr.active)));
                                     % after tree alteration selected nodes
@@ -5159,7 +5159,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit actual re-connecting nodes of sub-tree
                                 if ~isempty (cgui.mtr.tree)
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     isub = find (sub_tree (cgui.mtr.tree, cgui.mtr.active));
                                     X = cgui.mtr.tree.X (isub); Y = cgui.mtr.tree.Y (isub);
                                     Z = cgui.mtr.tree.Z (isub); D = cgui.mtr.tree.D (isub);
@@ -5210,7 +5210,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit decrease node diameter at tree
                                 if ~isempty (cgui.mtr.tree)
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree.D (cgui.mtr.active) = ...
                                         cgui.mtr.tree.D (cgui.mtr.active) * 0.9;
                                     % redraw mtr_ graphical output: active tree:
@@ -5231,7 +5231,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit-select decrease node diameter of selected nodes
                                 if (~isempty (cgui.mtr.tree)) && (~isempty (cgui.mtr.selected))
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree.D (cgui.mtr.selected) = ...
                                         cgui.mtr.tree.D (cgui.mtr.selected) * .8;
                                     % redraw mtr_ graphical output: active tree:
@@ -5272,7 +5272,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit-select increase node diameter of selected nodes
                                 if (~isempty (cgui.mtr.tree)) && (~isempty (cgui.mtr.selected))
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree.D (cgui.mtr.selected) = ...
                                         cgui.mtr.tree.D (cgui.mtr.selected) * 1.1;
                                     % redraw mtr_ graphical output: active tree:
@@ -5290,7 +5290,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit increase node diameter at tree
                                 if ~isempty (cgui.mtr.tree)
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree.D (cgui.mtr.active) = ...
                                         cgui.mtr.tree.D (cgui.mtr.active) * 1.1;
                                     cgui.mtr.lastnode = cgui.mtr.active;
@@ -5312,7 +5312,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit-select increase node diameter of selected nodes
                                 if (~isempty (cgui.mtr.tree)) && (~isempty (cgui.mtr.selected))
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree.D (cgui.mtr.selected) = ...
                                         cgui.mtr.tree.D (cgui.mtr.selected) * 1.2;
                                     % redraw mtr_ graphical output: active tree:
@@ -5330,7 +5330,7 @@ switch action,      % respond to actions arranged by ui panels:
                             case 4 % mtr_ edit increase node diameter at tree
                                 if ~isempty (cgui.mtr.tree)
                                     % keep track of old tree for undo:
-                                    cgui.cat.untrees {end + 1} = cgui.mtr.tree;
+                                    cgui.cat.untrees {end+1} = cgui.mtr.tree;
                                     cgui.mtr.tree.D (cgui.mtr.active) = ...
                                         cgui.mtr.tree.D (cgui.mtr.active) * 1.2;
                                     cgui.mtr.lastnode = cgui.mtr.active;
@@ -5583,7 +5583,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
                                         Plen = Pvec_tree (cgui.mtr.tree);
                                         Plen (cgui.mtr.active);
                                         if Plen (cgui.mtr.active) > 3,
-                                            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+                                            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
                                             cgui.mtr.tree = insertp_tree (cgui.mtr.tree, cgui.mtr.active,Plen (cgui.mtr.active) - 1, 'none');
                                             cgui.mtr.lastnode = 1;
                                             cgui_tree ('slt_relsel'); % after tree alteration selected nodes are discarded
@@ -6089,7 +6089,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_movepoint'      % edit submode: move a single node on the tree
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z] = simplecursor (cgui.mtr.tree.X (cgui.mtr.active), ...
                 cgui.mtr.tree.Y (cgui.mtr.active), cgui.mtr.tree.Z (cgui.mtr.active));
             cgui.mtr.tree.X (cgui.mtr.active) = x;
@@ -6101,7 +6101,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_rubbermove'     % edit submode: move all nodes in neighborhood
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             % make movement dependent on the gauss of the euclidean
             % distance to the closest node in tree:
             eucl = eucl_tree (cgui.mtr.tree, cgui.mtr.active);
@@ -6120,7 +6120,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_moveselected'	% edit submode: move selected points on the tree
         if (~isempty (cgui.mtr.tree)) && (~isempty (cgui.mtr.selected)),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z] = simplecursor (cgui.mtr.tree.X (cgui.mtr.active), ...
                 cgui.mtr.tree.Y (cgui.mtr.active), cgui.mtr.tree.Z (cgui.mtr.active));
             cgui.mtr.tree.X (cgui.mtr.selected) = cgui.mtr.tree.X (cgui.mtr.selected) + ...
@@ -6135,7 +6135,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_movesubtree'    % edit submode: move selected points on the tree
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z] = simplecursor (cgui.mtr.tree.X (cgui.mtr.active), ...
                 cgui.mtr.tree.Y (cgui.mtr.active), cgui.mtr.tree.Z (cgui.mtr.active));
             isub = [cgui.mtr.active; find(sub_tree (cgui.mtr.tree, cgui.mtr.active))];
@@ -6152,7 +6152,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
     case 'mouse_mtr_addpoints'      % edit submode: add points as children to closest node
         % third dimension value from slicer
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z cgui.mtr.distance cgui.mtr.active] = ...
                 close2cursor (cgui.mtr.tree.X, cgui.mtr.tree.Y, cgui.mtr.tree.Z, ...
                 cgui.vis.iM); % value from slicer
@@ -6168,7 +6168,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
     case 'mouse_mtr_addpointsztree' % edit submode: add points as children to closest node
         % same third dimension value as the parent point in the tree
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z cgui.mtr.distance cgui.mtr.active] = ...
                 close2cursor (cgui.mtr.tree.X, cgui.mtr.tree.Y, cgui.mtr.tree.Z);
             if cgui.mtr.distance > (mean (cgui.stk.voxel (1 : 2)) * 3)
@@ -6182,7 +6182,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_addpointszmax'  % edit submode: add point as child to closest node zmax
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z cgui.mtr.distance cgui.mtr.active] = ...
                 close2cursor (cgui.mtr.tree.X, cgui.mtr.tree.Y, cgui.mtr.tree.Z);
             [x y z] = zmaxcursoronstack;
@@ -6197,7 +6197,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_addthrpoints'	% edit submode: add brightest point as child to closest node
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z cgui.mtr.distance cgui.mtr.active] = ...
                 close2cursor (cgui.mtr.tree.X, cgui.mtr.tree.Y, cgui.mtr.tree.Z);
             [x y z] = brightestneighbor;
@@ -6212,7 +6212,7 @@ switch action, % respond to mouse in dependence of edit/select/viewing mode
         end
     case 'mouse_mtr_addskelpoints'	% edit submode: add skeletonized points as children to closest node
         if ~isempty (cgui.mtr.tree),
-            cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+            cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
             [x y z cgui.mtr.distance cgui.mtr.active] = ...
                 close2cursor (cgui.mtr.tree.X, cgui.mtr.tree.Y, cgui.mtr.tree.Z);
             [x y z cgui.skl.distance cgui.skl.active] = ...
@@ -6475,7 +6475,7 @@ function incorporateloaded_stack (stack)
 global cgui
 if ~isempty (stack)
     % integrate stack and set on top:
-    cgui.stk.M {end + 1} = stack.M {1}; cgui.stk.sM {end + 1} = stack.sM {1};
+    cgui.stk.M {end+1} = stack.M {1}; cgui.stk.sM {end+1} = stack.sM {1};
     % set a threshold corresponding to brightness values of stack:
     cgui_tree ('thr_setstd');
     cgui.stk.coord (end + 1, :) = [0 0 0];
@@ -6509,7 +6509,7 @@ else
         cgui.cat.trees{cgui.cat.i2tree} = tree;
     end
 end
-cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
 tree = cgui.mtr.tree; eval (streval); cgui.mtr.tree = tree;
 cgui_tree ('mtr_image'); % redraw mtr_ graphical output: active tree
 cgui_tree ('ged_settran'); % update edit field
@@ -6556,7 +6556,7 @@ else
         cgui.cat.trees {cgui.cat.i2tree} = tree;
     end
 end
-cgui.cat.untrees {end + 1} = cgui.mtr.tree;    % keep track of old tree for undo
+cgui.cat.untrees {end+1} = cgui.mtr.tree;    % keep track of old tree for undo
 tree = cgui.mtr.tree;
 if tranflag,
     dd = [tree.X(1) tree.Y(1) tree.Z(1)];
