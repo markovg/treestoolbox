@@ -14,11 +14,11 @@
 % - intrees::cell array: cell array of trees
 % - inodes1::array: indices for elsyn origin, indices are cumulated over trees
 % - inodes2::array: indices of elsyn endpoints.
-% - gelsyn::number or vector:conductance value or values if individual
+% - gelsyn::number or vector:conductance value or values if individual [uS]
 % - ge::Nx1 vector or value:excitatory synaptic input ind. compartments
-%       (or allround) {DEFAULT: 0 S in all nodes}
+%       (or allround) {DEFAULT: 0 uS in all nodes}
 % - gi::Nx1 vector or value:inhibitory synaptic input ind. compartments
-%       (or allround) {DEFAULT: 0 S in all nodes}
+%       (or allround) {DEFAULT: 0 uS in all nodes}
 % - Ee::Nx1 vector or value:excitatory reversal potential ind. compartments
 %       (or allround) {DEFAULT: 60 mV}
 % - Ei::Nx1 vector or value:inhibitory reversal potential ind. compartments

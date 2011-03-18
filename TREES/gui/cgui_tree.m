@@ -1872,6 +1872,22 @@ switch action,      % respond to actions arranged by ui panels:
                 set (cgui.vis.ui.txt1, 'string', {'exported to .hoc/.nrn', name});
             end
         end
+    case 'cat_nml_v1_l1'        % export active tree to nml_v1_l1 format
+        if ~isempty (cgui.cat.trees)
+            name = neuroml_tree (cgui.mtr.tree, [], '-v1l1 -w');
+            % echo on text frame of vis_ panel:
+            if ~isempty (name),
+                set (cgui.vis.ui.txt1, 'string', {'exported to NeuroML Level 1', name});
+            end
+        end
+    case 'cat_nml_v2a'          % export active tree to nml_v2a format
+        if ~isempty (cgui.cat.trees)
+            name = neuroml_tree (cgui.mtr.tree, [], '-v2a -w');
+            % echo on text frame of vis_ panel:
+            if ~isempty (name),
+                set (cgui.vis.ui.txt1, 'string', {'exported to NeuroML v2alpha', name});
+            end
+        end
         
     case 'cat_update'           % before switching tree update changes made to active tree
         if ~isempty (cgui.cat.trees)

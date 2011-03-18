@@ -57,6 +57,11 @@ if (nargin < 3)||isempty(options),
     options = ''; % {DEFAULT: no option}
 end
 
+ORI = [tree.X(1) tree.Y(1) tree.Z(1)];
+tree.X = tree.X - ORI (1);
+tree.Y = tree.Y - ORI (2);
+tree.Z = tree.Z - ORI (3);
+
 % scaling:
 if numel(fac)>1,
     tree.X = tree.X * fac (1);
@@ -70,6 +75,11 @@ else
         tree.D = tree.D * fac;
     end
 end
+
+tree.X = tree.X + ORI (1);
+tree.Y = tree.Y + ORI (2);
+tree.Z = tree.Z + ORI (3);
+
 
 if strfind (options, '-s') % show option
     clf; shine; hold on; HP = plot_tree (intree); set (HP,'facealpha', .5);
