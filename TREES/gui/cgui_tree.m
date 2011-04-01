@@ -3449,7 +3449,7 @@ switch action,      % respond to actions arranged by ui panels:
             set (cgui.ged.ui.r2, 'backgroundcolor', [1 1 0]);
             set (cgui.ui.mu4,    'enable'         , 'on');
             % activate menu elements:
-            mu22 = get (cgui.ui.mu2, 'children'); set (mu22 (1 : 9), 'enable', 'on');
+            mu22 = get (cgui.ui.mu2, 'children'); set (mu22 (1 : 11), 'enable', 'on');
         else
             % disable ui elements of mtr_ slt_ plt_ cat_ ged_ panels:
             for te = [2:5 9 10],
@@ -3471,7 +3471,7 @@ switch action,      % respond to actions arranged by ui panels:
             set (cgui.ged.ui.r2, 'backgroundcolor', [1 1 .7]);
             set (cgui.ui.mu4,    'enable'         , 'off');
             % inactivate menu elements:
-            mu22 = get (cgui.ui.mu2, 'children'); set (mu22 (1 : 9), 'enable', 'off');
+            mu22 = get (cgui.ui.mu2, 'children'); set (mu22 (1 : 11), 'enable', 'off');
         end
         if ~isempty (cgui.skl.I),
             % check if MST should be activated:
